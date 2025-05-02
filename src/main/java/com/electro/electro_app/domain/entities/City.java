@@ -9,7 +9,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"regions"})
+@ToString(exclude = {"regions"})
 @Entity
 @Table(name = "cities")
 public class City {
@@ -23,7 +31,7 @@ public class City {
 
     @Embedded
     Audit audit = new Audit();
-    
+
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
     Region regions;

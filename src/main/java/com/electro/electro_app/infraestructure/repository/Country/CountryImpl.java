@@ -12,41 +12,42 @@ import com.electro.electro_app.domain.entities.Country;
 
 @Service
 public class CountryImpl implements ICountryService {
-
+    
     @Autowired
     private CountryRepository repository;
 
     @Transactional(readOnly = true)
     @Override
     public List<Country> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
+        return(List<Country>) repository.findAll();}
 
     @Override
     public Optional<Country> findById(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return repository.findById(id);    
     }
 
     @Override
     public Country save(Country country) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        return repository.save(country);
     }
 
     @Override
     public Optional<Country> update(int id, Country country) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Optional<Country> countryOld = repository.findById(id);
+        if (countryOld.isPresent()) {
+            Country countryDb = countryOld.orElseThrow();
+            countryDb.setName(country.getName());
+            return Optional.of(repository.save(country));
+        }
+        return Optional.empty();
     }
 
     @Override
     public Optional<Country> delete(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        Optional<Country> countryOptional = repository.findById(id);
+        countryOptional.ifPresent(countryDb -> {
+            repository.delete(countryDb);
+        });
+        return Optional.empty();
     }
-
-    
-
 }

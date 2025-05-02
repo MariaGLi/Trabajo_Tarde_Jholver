@@ -3,9 +3,9 @@ package com.electro.electro_app.infraestructure.repository.Region;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.electro.electro_app.domain.entities.Country;
+import com.electro.electro_app.domain.entities.Region;
 
 @Repository
-public interface RegionCountry extends JpaRepository<Country, Integer>{
+public interface RegionRepository extends JpaRepository<Region, Integer>{
 
 }

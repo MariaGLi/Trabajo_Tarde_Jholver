@@ -10,39 +10,41 @@ import com.electro.electro_app.application.service.IRegionService;
 import com.electro.electro_app.domain.entities.Region;
 
 public class RegionImpl implements IRegionService{
-
     @Autowired
-    private RegionCountry repository;
+    private RegionRepository repository;
 
     @Transactional(readOnly = true)
     @Override
     public List<Region> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
+        return(List<Region>) repository.findAll();}
 
     @Override
     public Optional<Region> findById(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return repository.findById(id);    
     }
 
     @Override
     public Region save(Region region) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        return repository.save(region);
     }
 
     @Override
     public Optional<Region> update(int id, Region region) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Optional<Region> regionOld = repository.findById(id);
+        if (regionOld.isPresent()) {
+            Region regionDb = regionOld.orElseThrow();
+            regionDb.setName(region.getName());
+            return Optional.of(repository.save(region));
+        }
+        return Optional.empty();
     }
 
     @Override
     public Optional<Region> delete(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        Optional<Region> regionOptional = repository.findById(id);
+        regionOptional.ifPresent(regionDb -> {
+            repository.delete(regionDb);
+        });
+        return Optional.empty();
     }
-
 }
