@@ -15,7 +15,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@EqualsAndHashCode(exclude = {"cities"})
+@ToString(exclude = {"cities"})
 @Entity
 @Table(name = "regions")
 public class Region {
@@ -29,7 +37,7 @@ public class Region {
 
     @Embedded
     Audit audit = new Audit();
-    
+
     @ManyToOne
     @JoinColumn(name = "country_id", nullable = false)
     //JsonBackreference es para evitar la recursividad infinita al serializar el objeto
