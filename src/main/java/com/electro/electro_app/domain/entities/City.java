@@ -1,6 +1,7 @@
 package com.electro.electro_app.domain.entities;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,9 @@ public class City {
     @Column(length = 50, nullable = false)
     private String name;
 
+    @Embedded
+    Audit audit = new Audit();
+    
     @ManyToOne
     @JoinColumn(name = "region_id", nullable = false)
     Region regions;
