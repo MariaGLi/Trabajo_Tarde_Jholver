@@ -14,39 +14,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.electro.electro_app.application.service.ICountryService;
-import com.electro.electro_app.domain.entities.Country;
+import com.electro.electro_app.application.service.IRegionService;
+import com.electro.electro_app.domain.entities.Region;
 
 @RestController
-@RequestMapping("/api/country")
-public class CountryController {
+@RequestMapping("/api/region")
+public class RegionController {
     @Autowired
-    private ICountryService countryService;
+    private IRegionService regionService;
 
     @GetMapping
-    public List<Country> list() {
-        return countryService.findAll();
+    public List<Region> list() {
+        return regionService.findAll();
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<?> view(@PathVariable Long id) {
-        Optional<Country> countryOptional = countryService.findById(id);
-        if (countryOptional.isPresent()) {
-            return ResponseEntity.ok(countryOptional.orElseThrow());
+        Optional<Region> regionOptional = regionService.findById(id);
+        if (regionOptional.isPresent()) {
+            return ResponseEntity.ok(regionOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Country country) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(countryService.save(country));
+    public ResponseEntity<?> create(@RequestBody Region region) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(regionService.save(region));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Optional<Country> countryOptional = countryService.delete(id);
-        if (countryOptional.isPresent()) {
-            return ResponseEntity.ok(countryOptional.orElseThrow());
+        Optional<Region> regionOptional = regionService.delete(id);
+        if (regionOptional.isPresent()) {
+            return ResponseEntity.ok(regionOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }

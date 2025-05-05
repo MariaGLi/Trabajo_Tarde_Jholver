@@ -1,13 +1,17 @@
 package com.electro.electro_app.domain.entities;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,34 +24,31 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Getter
 @Setter
+@Getter
 @EqualsAndHashCode(exclude = {"cities"})
 @ToString(exclude = {"cities"})
 @Entity
 @Table(name = "regions")
 public class Region {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(length = 50,nullable = false)
+    @Column(length = 50, nullable = true)
     private String name;
 
     @Embedded
     Audit audit = new Audit();
 
     @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
-    //JsonBackreference es para evitar la recursividad infinita al serializar el objeto
-    //en formato JSON. Esto es útil cuando tienes relaciones bidireccionales entre entidades.
-    //En este caso, la relación entre Country y Region es bidireccional, ya que un país puede tener varias regiones
+    @JoinColumn(name = "country_id")
     @JsonBackReference
-    Country countries;
+    Country contryId;
 
-    @OneToMany(mappedBy = "regions")
-    @JsonBackReference
+    @OneToMany(mappedBy = "regionId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<City> cities = new HashSet<>();
 
 }
+

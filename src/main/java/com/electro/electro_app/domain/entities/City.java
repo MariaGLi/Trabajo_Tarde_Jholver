@@ -1,4 +1,5 @@
 package com.electro.electro_app.domain.entities;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -9,30 +10,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@Getter
 @Setter
-@EqualsAndHashCode(exclude = {"regions"})
-@ToString(exclude = {"regions"})
+@Getter
 @Entity
 @Table(name = "cities")
 public class City {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = true)
     private String name;
 
     @Embedded
     Audit audit = new Audit();
 
     @ManyToOne
-    @JoinColumn(name = "region_id", nullable = false)
-    Region regions;
+    @JoinColumn(name = "region_id")
+    @JsonBackReference
+    Region regionId;
+
 }

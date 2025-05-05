@@ -3,7 +3,7 @@ package com.electro.electro_app.domain.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,24 +24,20 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode(exclude = {"regions"})
 @ToString(exclude = {"regions"})
-@Entity
 @Table(name = "countries")
+@Entity
 public class Country {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name",length = 50, nullable = false)
+    @Column(length = 50, nullable = false)
     private String name;
 
     @Embedded
     Audit audit = new Audit();
-    //al momento de ejecutarse toma los atributos de la clase Audit y los guarda en la tabla
-    //countries, en este caso los atributos son createdAt y updatedAt
 
-    @OneToMany(mappedBy = "countries", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @OneToMany(mappedBy = "contryId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<Region> regions = new HashSet<>();
-
 }

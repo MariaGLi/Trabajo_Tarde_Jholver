@@ -22,7 +22,7 @@ public class CityImpl implements ICityService {
         return(List<City>) repository.findAll();}
 
     @Override
-    public Optional<City> findById(int id) {
+    public Optional<City> findById(Long id) {
         return repository.findById(id);    
     }
 
@@ -32,7 +32,7 @@ public class CityImpl implements ICityService {
     }
 
     @Override
-    public Optional<City> update(int id, City city) {
+    public Optional<City> update(Long id, City city) {
         Optional<City> cityOld = repository.findById(id);
         if (cityOld.isPresent()) {
             City cityDb = cityOld.orElseThrow();
@@ -43,7 +43,7 @@ public class CityImpl implements ICityService {
     }
 
     @Override
-    public Optional<City> delete(int id) {
+    public Optional<City> delete(Long id) {
         Optional<City> cityOptional = repository.findById(id);
         cityOptional.ifPresent(cityDb -> {
             repository.delete(cityDb);

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.electro.electro_app.domain.entities.Region;
 
 @Repository
-public interface RegionRepository extends JpaRepository<Region, Integer>{
-
+public interface RegionRepository extends JpaRepository<Region, Long> {
+    // Custom query methods can be defined here if needed
 }

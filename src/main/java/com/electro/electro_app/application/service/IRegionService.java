@@ -6,13 +6,13 @@ import java.util.Optional;
 import com.electro.electro_app.domain.entities.Region;
 
 public interface IRegionService {
-List<Region> findAll();
+    List<Region> findAll();
 
-    Optional<Region> findById(int id);
+    Optional<Region> findById(Long id);
 
     Region save(Region region);
 
-    Optional<Region> update(int id, Region region);
+    Optional<Region> update(Long id, Region region);
 
-    Optional<Region> delete(int id);
+    Optional<Region> delete(Long id);
 }

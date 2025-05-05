@@ -14,39 +14,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.electro.electro_app.application.service.ICountryService;
-import com.electro.electro_app.domain.entities.Country;
+import com.electro.electro_app.application.service.ICityService;
+import com.electro.electro_app.domain.entities.City;
 
 @RestController
-@RequestMapping("/api/country")
-public class CountryController {
+@RequestMapping("/api/city")
+public class CityController {
     @Autowired
-    private ICountryService countryService;
+    private ICityService cityService;
 
     @GetMapping
-    public List<Country> list() {
-        return countryService.findAll();
+    public List<City> list() {
+        return cityService.findAll();
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<?> view(@PathVariable Long id) {
-        Optional<Country> countryOptional = countryService.findById(id);
-        if (countryOptional.isPresent()) {
-            return ResponseEntity.ok(countryOptional.orElseThrow());
+        Optional<City> cityOptional = cityService.findById(id);
+        if (cityOptional.isPresent()) {
+            return ResponseEntity.ok(cityOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Country country) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(countryService.save(country));
+    public ResponseEntity<?> create(@RequestBody City city) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(cityService.save(city));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Optional<Country> countryOptional = countryService.delete(id);
-        if (countryOptional.isPresent()) {
-            return ResponseEntity.ok(countryOptional.orElseThrow());
+        Optional<City> cityOptional = cityService.delete(id);
+        if (cityOptional.isPresent()) {
+            return ResponseEntity.ok(cityOptional.orElseThrow());
         }
         return ResponseEntity.notFound().build();
     }
