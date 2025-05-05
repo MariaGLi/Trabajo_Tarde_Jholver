@@ -30,9 +30,9 @@ public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "name",length = 50, nullable = false)
     private String name;
 
     @Embedded

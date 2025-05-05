@@ -22,7 +22,7 @@ public class CountryImpl implements ICountryService {
         return(List<Country>) repository.findAll();}
 
     @Override
-    public Optional<Country> findById(int id) {
+    public Optional<Country> findById(Long id) {
         return repository.findById(id);    
     }
 
@@ -32,7 +32,7 @@ public class CountryImpl implements ICountryService {
     }
 
     @Override
-    public Optional<Country> update(int id, Country country) {
+    public Optional<Country> update(Long id, Country country) {
         Optional<Country> countryOld = repository.findById(id);
         if (countryOld.isPresent()) {
             Country countryDb = countryOld.orElseThrow();
@@ -43,7 +43,7 @@ public class CountryImpl implements ICountryService {
     }
 
     @Override
-    public Optional<Country> delete(int id) {
+    public Optional<Country> delete(Long id) {
         Optional<Country> countryOptional = repository.findById(id);
         countryOptional.ifPresent(countryDb -> {
             repository.delete(countryDb);

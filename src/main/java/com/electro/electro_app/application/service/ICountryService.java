@@ -8,11 +8,11 @@ import com.electro.electro_app.domain.entities.Country;
 public interface ICountryService {
     List<Country> findAll();
 
-    Optional<Country> findById(int id);
+    Optional<Country> findById(Long id);
 
     Country save(Country country);
 
-    Optional<Country> update(int id, Country country);
+    Optional<Country> update(Long id, Country country);
 
-    Optional<Country> delete(int id);
+    Optional<Country> delete(Long id);
 }
