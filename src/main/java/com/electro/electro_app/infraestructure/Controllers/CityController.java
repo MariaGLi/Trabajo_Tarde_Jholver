@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.electro.electro_app.application.service.ICityService;
+import com.electro.electro_app.application.service.IRegionService;
+import com.electro.electro_app.domain.DTOs.CityRequestDTO;
+import com.electro.electro_app.domain.DTOs.RegionRequestDTO;
 import com.electro.electro_app.domain.entities.City;
+import com.electro.electro_app.domain.entities.Country;
+import com.electro.electro_app.domain.entities.Region;
 
 @RestController
 @RequestMapping("/api/city")
@@ -23,11 +28,14 @@ public class CityController {
     @Autowired
     private ICityService cityService;
 
+    @Autowired
+    private IRegionService regionService;
+
     @GetMapping
     public List<City> list() {
         return cityService.findAll();
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<?> view(@PathVariable Long id) {
         Optional<City> cityOptional = cityService.findById(id);
@@ -38,8 +46,17 @@ public class CityController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody City city) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(cityService.save(city));
+    public ResponseEntity<?> create(@RequestBody CityRequestDTO cityRequestDTO) {
+        Region region = regionService.findById(cityRequestDTO.getRegionId())
+                .orElseThrow(() -> new RuntimeException("Region no encontrado"));
+
+        City city = new City();
+        city.setName(cityRequestDTO.getName());
+        city.setRegion(region);
+
+        City savedcity = cityService.save(city);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedcity);
     }
 
     @DeleteMapping("/{id}")
@@ -50,6 +67,5 @@ public class CityController {
         }
         return ResponseEntity.notFound().build();
     }
-
 
 }

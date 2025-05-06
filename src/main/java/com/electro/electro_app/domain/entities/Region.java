@@ -44,9 +44,9 @@ public class Region {
     @ManyToOne
     @JoinColumn(name = "country_id")
     @JsonBackReference
-    Country contryId;
+    Country country;
 
-    @OneToMany(mappedBy = "regionId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "region",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<City> cities = new HashSet<>();
 

@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.electro.electro_app.application.service.ICountryService;
 import com.electro.electro_app.application.service.IRegionService;
+import com.electro.electro_app.domain.DTOs.RegionRequestDTO;
+import com.electro.electro_app.domain.entities.Country;
 import com.electro.electro_app.domain.entities.Region;
 
 @RestController
@@ -23,11 +26,14 @@ public class RegionController {
     @Autowired
     private IRegionService regionService;
 
+    @Autowired
+    private ICountryService countryService;
+
     @GetMapping
     public List<Region> list() {
         return regionService.findAll();
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<?> view(@PathVariable Long id) {
         Optional<Region> regionOptional = regionService.findById(id);
@@ -38,8 +44,17 @@ public class RegionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody Region region) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(regionService.save(region));
+    public ResponseEntity<?> create(@RequestBody RegionRequestDTO regionDTO) {
+        Country country = countryService.findById(regionDTO.getCountryId())
+                .orElseThrow(() -> new RuntimeException("País no encontrado"));
+
+        Region region = new Region();
+        region.setName(regionDTO.getName());
+        region.setCountry(country);
+
+        Region savedRegion = regionService.save(region);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedRegion);
     }
 
     @DeleteMapping("/{id}")
@@ -50,6 +65,5 @@ public class RegionController {
         }
         return ResponseEntity.notFound().build();
     }
-
 
 }
