@@ -8,6 +8,4 @@ import lombok.Setter;
 public class RegionRequestDTO {
     private String name;
     private Long countryId;
-    
-   
 }

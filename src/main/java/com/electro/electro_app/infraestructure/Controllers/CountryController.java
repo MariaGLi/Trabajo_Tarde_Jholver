@@ -42,16 +42,7 @@ public class CountryController {
     public ResponseEntity<?> create(@RequestBody Country country) {
         return ResponseEntity.status(HttpStatus.CREATED).body(countryService.save(country));
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        Optional<Country> countryOptional = countryService.delete(id);
-        if (countryOptional.isPresent()) {
-            return ResponseEntity.ok(countryOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
-    }
-
+    
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Country country) {
         Optional<Country> countryOptional = countryService.findById(id);
@@ -63,5 +54,12 @@ public class CountryController {
         return ResponseEntity.notFound().build();
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Optional<Country> countryOptional = countryService.delete(id);
+        if (countryOptional.isPresent()) {
+            return ResponseEntity.ok(countryOptional.orElseThrow());
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
