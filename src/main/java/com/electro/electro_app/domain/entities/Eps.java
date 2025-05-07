@@ -34,6 +34,6 @@ public class Eps {
     private String name;
 
     @OneToMany(mappedBy = "eps",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("eps-empleado")
     private Set<Empleado> empleados  = new HashSet<>();
 }

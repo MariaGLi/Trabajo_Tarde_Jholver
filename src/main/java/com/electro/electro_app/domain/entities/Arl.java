@@ -15,7 +15,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "arl")
 public class Arl {
@@ -30,7 +34,6 @@ public class Arl {
     private String name;
 
     @OneToMany(mappedBy = "arl",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("arl-empleado")
     private Set<Empleado> empleados  = new HashSet<>();
-
 }

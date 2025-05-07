@@ -36,7 +36,11 @@ public class PersonaImpl implements IPersonaService {
         Optional<Persona> personaOld = repository.findById(id);
         if (personaOld.isPresent()) {
             Persona personaDb = personaOld.orElseThrow();
-            personaDb.setNombre(persona.getNombre());
+            personaDb.setName(persona.getName());
+            personaDb.setLastName(persona.getLastName());
+            personaDb.setEmail(persona.getEmail());
+            personaDb.setPhone(persona.getPhone());
+            personaDb.setAddress(persona.getAddress());
             return Optional.of(repository.save(persona));
         }
         return Optional.empty();

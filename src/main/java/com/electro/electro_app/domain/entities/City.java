@@ -3,6 +3,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -32,15 +34,17 @@ public class City {
     @Column(length = 50, nullable = true)
     private String name;
 
-    @Embedded
-    Audit audit = new Audit();
+   
 
     @ManyToOne
     @JoinColumn(name = "region_id")
-    @JsonBackReference
+    @JsonBackReference("region-city")
     Region region;
 
-    @OneToMany(mappedBy = "city",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "city")
+    @JsonBackReference("city-persona")
     private Set<Persona> personas = new HashSet<>();
+
+    @Embedded
+    Audit audit = new Audit();
 }

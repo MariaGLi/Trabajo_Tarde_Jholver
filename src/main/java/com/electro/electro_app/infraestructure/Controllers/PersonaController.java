@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.electro.electro_app.application.service.ICityService;
 import com.electro.electro_app.application.service.IPersonaService;
+import com.electro.electro_app.application.service.ITipoDocumentoService;
 import com.electro.electro_app.domain.DTOs.PersonaRequestDTO;
 import com.electro.electro_app.domain.entities.City;
 import com.electro.electro_app.domain.entities.Persona;
+import com.electro.electro_app.domain.entities.TipoDocumento;
 
 @RestController
 @RequestMapping("/api/persona")
@@ -29,6 +31,9 @@ public class PersonaController {
 
     @Autowired
     private ICityService ciudadService;
+
+    @Autowired
+    private ITipoDocumentoService tipoDocumentoService;
 
     @GetMapping
     public List<Persona> list() {
@@ -48,9 +53,16 @@ public class PersonaController {
     public ResponseEntity<?> create(@RequestBody PersonaRequestDTO personaRequestDTO) {
         City ciudad = ciudadService.findById(personaRequestDTO.getCityId())
                 .orElseThrow(() -> new RuntimeException("Ciudad no encontrada"));
-
+        TipoDocumento tipoDocumento = tipoDocumentoService.findById(personaRequestDTO.getTipoDocumentoId())
+                .orElseThrow(() -> new RuntimeException("Tipo de documento no encontrado"));
         Persona persona = new Persona();
-        persona.setNombre(personaRequestDTO.getNombre());
+        persona.setName(personaRequestDTO.getName());
+        persona.setLastName(personaRequestDTO.getLastName());
+        persona.setEmail(personaRequestDTO.getEmail());
+        persona.setPhone(personaRequestDTO.getPhone());
+        persona.setAddress(personaRequestDTO.getAddress());
+        
+        persona.setTipoDocumento((tipoDocumento));
         persona.setCity(ciudad);
 
         Persona savedpersona = personaService.save(persona);
@@ -63,7 +75,7 @@ public class PersonaController {
         Optional<Persona> personaOptional = personaService.findById(id);
         if (personaOptional.isPresent()) {
             Persona updatedPersona = personaOptional.orElseThrow();
-            updatedPersona.setNombre(persona.getNombre());
+            updatedPersona.setName(persona.getName());
             return ResponseEntity.status(HttpStatus.CREATED).body(personaService.save(updatedPersona));
         }
         return ResponseEntity.notFound().build();

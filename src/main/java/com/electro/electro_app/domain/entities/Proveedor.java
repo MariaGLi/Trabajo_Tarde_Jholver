@@ -2,6 +2,7 @@ package com.electro.electro_app.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,11 +24,18 @@ public class Proveedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Embedded
-    Audit audit = new Audit();
-
+    
     @OneToOne
     @JoinColumn(name = "persona_id")
     @JsonBackReference
     Persona persona;
+    
+    @Column(name = "dias_plazo")
+    private String diasPlazo;
+
+    @Column(name = "porcentaje_pronto_pago")
+    private String porcentajeProntoPago;
+
+    @Embedded
+    Audit audit = new Audit();
 }

@@ -15,10 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -30,13 +28,13 @@ public class TipoDocumento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(length = 30, nullable = false)
+    private String name;
+    
     @Embedded
     Audit audit = new Audit();
 
-    @Column(length = 30, nullable = false)
-    private String name;
-
-    @OneToMany(mappedBy = "tipoDocumento",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "tipoDocumento", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference("tipoDocumento-persona")
     private Set<Persona> personas = new HashSet<>();
 }

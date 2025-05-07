@@ -7,9 +7,10 @@ import lombok.Setter;
 @Setter
 public class PersonaRequestDTO {
     private Long cityId;
-    private String nombre;
-    private String apellido;
+    private String name;
+    private String lastName;
     private String email;
-    private String telefono;
-    private String direccion;
+    private String phone;
+    private String address;
+    private Long tipoDocumentoId;
 }

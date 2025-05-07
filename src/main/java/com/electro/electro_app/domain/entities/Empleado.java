@@ -30,11 +30,11 @@ public class Empleado {
 
     @ManyToOne
     @JoinColumn(name = "arl_id")
-    @JsonBackReference
+    @JsonBackReference("arl-empleado")
     Arl arl;
 
     @ManyToOne
     @JoinColumn(name = "eps_id")
-    @JsonBackReference
+    @JsonBackReference("eps-empleado")
     Eps eps;
 }

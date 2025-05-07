@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,38 +32,40 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    Audit audit = new Audit();
+  
+    private String name;
 
-    private String nombre;
-
-    private String apellido;
+    private String lastName;
 
     private String email;
 
-    private String telefono;
+    @Column(length = 20, nullable = false)
+    private String phone;
 
-    private String direccion;
+    private String address;
 
     @ManyToOne
     @JoinColumn(name = "city_id")
-    @JsonBackReference
+    @JsonBackReference("persona-city")
     City city;
 
     @ManyToOne
     @JoinColumn(name = "tipoDocumento_id")
-    @JsonBackReference
+    @JsonBackReference("tipoDocumento-persona")
     TipoDocumento tipoDocumento;
 
     @OneToOne(mappedBy = "persona",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonManagedReference
     private Cliente clientes;
 
-    @OneToOne(mappedBy = "persona",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Empleado empleados;
+    // @OneToOne(mappedBy = "persona",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    // @JsonManagedReference
+    // private Empleado empleados;
 
-    @OneToOne(mappedBy = "persona",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Proveedor proveedores;
+    // @OneToOne(mappedBy = "persona",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    // @JsonManagedReference
+    // private Proveedor proveedores;
+    @Embedded
+    Audit audit = new Audit();
+
 }
