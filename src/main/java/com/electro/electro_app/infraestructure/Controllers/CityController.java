@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.electro.electro_app.application.service.ICityService;
 import com.electro.electro_app.application.service.IRegionService;
 import com.electro.electro_app.domain.DTOs.CityRequestDTO;
-import com.electro.electro_app.domain.DTOs.RegionRequestDTO;
 import com.electro.electro_app.domain.entities.City;
-import com.electro.electro_app.domain.entities.Country;
 import com.electro.electro_app.domain.entities.Region;
 
 @RestController

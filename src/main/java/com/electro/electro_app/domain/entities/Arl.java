@@ -1,10 +1,8 @@
 package com.electro.electro_app.domain.entities;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -15,40 +13,27 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
-@Setter
 @Getter
-@EqualsAndHashCode(exclude = {"cities"})
-@ToString(exclude = {"cities"})
+@Setter
 @Entity
-@Table(name = "regions")
-public class Region {
+@Table(name = "arl")
+public class Arl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(length = 50, nullable = true)
-    private String name;
-
+    
     @Embedded
     Audit audit = new Audit();
 
-    @ManyToOne
-    @JoinColumn(name = "country_id")
-    @JsonBackReference("country-region")
-    Country country;
+    @Column(length = 30, nullable = false)
+    private String name;
 
-    @OneToMany(mappedBy = "region",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonManagedReference("region-city")
-    private Set<City> cities = new HashSet<>();
-
+    @OneToMany(mappedBy = "arl",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonManagedReference("arl-empleado")
+    private Set<Empleado> empleados  = new HashSet<>();
 }
-

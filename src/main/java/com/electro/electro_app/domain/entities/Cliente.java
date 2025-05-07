@@ -1,6 +1,7 @@
 package com.electro.electro_app.domain.entities;
-import java.util.HashSet;
-import java.util.Set;
+
+
+import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -11,35 +12,32 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
-@Getter
 @Entity
-@Table(name = "cities")
-public class City {
+@Getter
+@Setter
+@Table(name = "clientes")
+public class Cliente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50, nullable = true)
-    private String name;
+    @OneToOne
+    @JoinColumn(name = "persona_id")
+    @JsonBackReference
+    Persona persona;
 
-   
+    @Column(name = "fecha_ultima_compra")
+    private LocalDateTime fechaUltimaCompra;
 
-    @ManyToOne
-    @JoinColumn(name = "region_id")
-    @JsonBackReference("region-city")
-    Region region;
-
-    @OneToMany(mappedBy = "city")
-    @JsonBackReference("city-persona")
-    private Set<Persona> personas = new HashSet<>();
-
+    @Column(name = "fecha_nacimiento")
+    private LocalDateTime fechaNacimiento;
+    
     @Embedded
     Audit audit = new Audit();
 }

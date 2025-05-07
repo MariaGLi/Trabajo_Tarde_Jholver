@@ -38,6 +38,6 @@ public class Country {
     Audit audit = new Audit();
 
     @OneToMany(mappedBy = "country",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference("country-region")
     private Set<Region> regions = new HashSet<>();
 }
