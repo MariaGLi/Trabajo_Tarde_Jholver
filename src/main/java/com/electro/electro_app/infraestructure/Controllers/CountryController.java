@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.electro.electro_app.application.service.ICountryService;
 import com.electro.electro_app.domain.entities.Country;
+import com.electro.electro_app.infraestructure.models.exception.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/country")
@@ -28,38 +29,32 @@ public class CountryController {
     public List<Country> list() {
         return countryService.findAll();
     }
-    
+
     @GetMapping("/{id}")
     public ResponseEntity<?> view(@PathVariable Long id) {
-        Optional<Country> countryOptional = countryService.findById(id);
-        if (countryOptional.isPresent()) {
-            return ResponseEntity.ok(countryOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
+        Country country = countryService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Error: el país no existe"));
+        return ResponseEntity.ok(country);
     }
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody Country country) {
         return ResponseEntity.status(HttpStatus.CREATED).body(countryService.save(country));
     }
-    
+
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Country country) {
-        Optional<Country> countryOptional = countryService.findById(id);
-        if (countryOptional.isPresent()) {
-            Country updatedCountry = countryOptional.orElseThrow();
-            updatedCountry.setName(country.getName());
-            return ResponseEntity.status(HttpStatus.CREATED).body(countryService.save(updatedCountry));
-        }
-        return ResponseEntity.notFound().build();
+        Country existingCountry = countryService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Error: el país no existe"));
+        existingCountry.setName(country.getName());
+        return ResponseEntity.ok(countryService.save(existingCountry));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
-        Optional<Country> countryOptional = countryService.delete(id);
-        if (countryOptional.isPresent()) {
-            return ResponseEntity.ok(countryOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
+        Country country = countryService.findById(id).orElseThrow(() -> new EntityNotFoundException("Error: el país no existe"));
+
+        countryService.delete(id);
+        return ResponseEntity.ok(country);
     }
 }
