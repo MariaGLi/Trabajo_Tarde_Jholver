@@ -31,6 +31,7 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ExistsByCountryName
     @Column(length = 50, nullable = false)
     private String name;
 
