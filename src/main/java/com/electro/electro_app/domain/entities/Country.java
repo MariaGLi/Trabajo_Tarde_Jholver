@@ -3,6 +3,7 @@ package com.electro.electro_app.domain.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.electro.electro_app.infraestructure.utils.Validations.ExistsByCountryName;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;

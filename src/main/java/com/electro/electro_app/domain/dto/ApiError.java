@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class ApiError implements Serializable{
+    
     private String backedMessage;
     private String message;
     private int httpCode;

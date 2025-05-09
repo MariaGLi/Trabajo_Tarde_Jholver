@@ -16,5 +16,5 @@ public interface ICountryService {
 
     Optional<Country> delete(Long id);
 
-    boolean ExistsByUsername(String id);
+    boolean ExistsByCountryName(String id);
 }

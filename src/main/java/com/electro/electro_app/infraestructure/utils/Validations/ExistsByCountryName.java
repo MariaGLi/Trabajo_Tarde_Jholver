@@ -6,10 +6,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 
 @Constraint(validatedBy = ExistsByCountryNameValidation.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public interface ExistsByCountryName {
+public @interface ExistsByCountryName {
 
+    String message() default "Ya existe en la base de datos. Escoja otro Username.";
+
+    Class<?>[] groups() default {};
+
+    Class <? extends Payload>[] payload() default {};
 }
